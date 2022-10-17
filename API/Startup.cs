@@ -39,6 +39,9 @@ namespace API
             });
 
             services.AddControllers();
+            services.AddCors(); // גישה ממיקום אחר 1/2
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
@@ -58,6 +61,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200")); // גישה ממיקום אחר 2/2
 
             app.UseAuthorization();
 
