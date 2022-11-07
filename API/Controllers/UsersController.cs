@@ -11,6 +11,7 @@ using API.Interfaces;
 using API.DTOs;
 using AutoMapper;
 using System.Security.Claims;
+using API.Extensions;
 
 namespace API.Controllers
 {
@@ -49,7 +50,7 @@ namespace API.Controllers
 
         // api/users/3
         //[Authorize]
-        [HttpGet("{username}")]
+        [HttpGet("{username}", Name = "GetUser")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
             //var user = _context.Users.FindAsync(id);
@@ -68,8 +69,8 @@ namespace API.Controllers
         [HttpPut] 
         public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
         {
-            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userRepository.GetUserByUsernameAsync(username);
+            //var username = User.GetUsername(); //User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
             
             _mapper.Map(memberUpdateDto, user);
 
